@@ -90,12 +90,16 @@ pub mod grid {
         }
 
         pub fn print(&self) {
+            use super::reverse_log;
             let mut char1: char = 'A';
             let mut num = 1;
             print!("     {}", num);
             for _i in 0..self.width - 1 {
+                for _j in 0..reverse_log(_i+1){
+                    print!(" ");
+                }
                 num += 1;
-                print!("   {}", num);
+                print!("{}", num);
             }
             println!();
             for i in 0..self.height {
@@ -149,7 +153,7 @@ pub mod grid {
 
             let lenght = 2 + ((self.width as f32).log10().floor()) as usize;
             match usr_in.len() {
-                len if len == lenght || len == 2 => {
+                len if len <= lenght && len >=2 => {
                     let row_u: usize = match usr_in[0..1]
                         .to_ascii_uppercase()
                         .chars()
@@ -306,5 +310,17 @@ pub mod usr_input {
         };
 
         return Ok((rows, cols, n_boats));
+    }
+}
+
+fn reverse_log(n: usize) -> usize {
+    if n >= 1 && n < 9 {
+        3
+    } else if n >= 9 && n < 99 {
+        2
+    } else if n >= 99 {
+        0
+    } else {
+        0
     }
 }
